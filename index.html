@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Second Skin — Critical Matter, MIT Media Lab</title>
+<!-- The ?v= forces a fresh copy when the file changes; bump it on edits
+     so a plain refresh is always enough. -->
+<meta name="description" content="A participatory on-body fabrication study at the MIT Media Lab. You compose a piece on screen, are scanned, and a robotic arm fabricates it directly onto your skin.">
+<link rel="icon" href="media/icon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="media/icon-180.png">
+<!-- What a shared link looks like in a message, a post, or an email. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Critical Matter, MIT Media Lab">
+<meta property="og:title" content="Second Skin">
+<meta property="og:description" content="A participatory on-body fabrication study at the MIT Media Lab. You compose a piece on screen, are scanned, and a robotic arm fabricates it directly onto your skin.">
+<meta property="og:url" content="https://critical-matter-mit-media-lab.github.io/second-skin/">
+<meta property="og:image" content="https://critical-matter-mit-media-lab.github.io/second-skin/media/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://critical-matter-mit-media-lab.github.io/second-skin/">
+<link rel="stylesheet" href="style.css?v=37">
+</head>
+<body>
+
+<!--
+  ONE site, four tabs, the same for everyone.
+
+  The public build. It is generated from the study repository and carries
+  only what this page loads; the session tooling is not part of it.
+-->
+
+<header class="site">
+  <div class="bar">
+    <!-- The lab first, then the group inside it — the order they are read in.
+         Both marks leave for the institution they name, in their own tab. The
+         way home from any tab is the nav, which is always on screen. -->
+    <div class="logos">
+      <a class="logo" href="https://www.media.mit.edu/" target="_blank"
+         rel="noopener" aria-label="MIT Media Lab">
+        <img src="media/1_about/Media-Lab_1_White 1.png" alt="MIT Media Lab">
+      </a>
+      <a class="logo" href="https://www.media.mit.edu/groups/critical-matter/overview/"
+         target="_blank" rel="noopener" aria-label="Critical Matter">
+        <img src="media/1_about/CriticalMatter_White.png" alt="Critical Matter">
+      </a>
+    </div>
+
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="about"       aria-selected="true">About</button>
+      <button role="tab" data-tab="methodology" aria-selected="false">Methodology</button>
+      <button role="tab" data-tab="experience"  aria-selected="false">Experience</button>
+      <button role="tab" data-tab="team"        aria-selected="false">Team</button>
+    </nav>
+
+    <div class="social">
+      <a href="https://www.instagram.com/criticalmattergroup/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16Zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32Zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.84-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ------------------------------------------------------------- about -->
+  <section role="tabpanel" id="about" class="active">
+
+    <div class="hero">
+      <!-- muted + playsinline are what let a video autoplay at all; loop makes
+           it a background rather than something with a beginning and an end.
+           Black and white is applied in CSS, not baked into the file. -->
+      <video autoplay muted loop playsinline
+             poster="media/1_about/hole_dress_poster.jpg">
+        <source src="media/1_about/hole_dress_web.mp4" type="video/mp4">
+      </video>
+      <div class="grade"></div>
+      <div class="pop"></div>
+      <div class="inner">
+        <span class="tag">Critical Matter · MIT Media Lab</span>
+        <h1>Second Skin</h1>
+        <p>What if fashion were generated from bodily data, shaped by gravity,<br>and robotically fabricated directly onto the skin?</p>
+      </div>
+    </div>
+
+    <!-- The photograph is a backdrop, not a block in the flow: it is pinned
+         behind everything below, and the panels slide over it. So it never
+         travels up into view — it is already there, hidden, and the copy
+         sliding off the top is what uncovers it. The negative margin is what
+         pulls the panels back over it; without it they would start below. -->
+    <div class="backdrop">
+      <div class="bg">
+        <img src="media/1_about/justin_skin_web.jpg" alt="A piece on the body">
+      </div>
+
+      <div class="panels">
+        <div class="band covers-hero">
+          <div class="wrap">
+            <div class="reveal">
+              <span class="tag">About</span>
+              <!-- Behnaz's project description, 2026-08-24, split across the
+                   slots this band already had: the opening claim as the lede,
+                   the three how-paragraphs as the body in her order (scan,
+                   interface, gravity), and the thesis line set apart at the
+                   end the way the Experience tab closes. Her wording, verbatim. -->
+              <p class="lede">
+                Second Skin explores a different way of making wearables, one
+                in which the body becomes the starting point for fabrication
+                rather than something a predetermined garment must accommodate.
+              </p>
+              <p class="muted">
+                A participant’s body is first scanned, creating a
+                three-dimensional map that guides the movement of a robotic
+                arm. Unlike conventional garment production, which typically
+                begins with standardized pattern blocks, Second Skin begins
+                with an individual body.
+              </p>
+              <p class="muted">
+                Through a custom-designed interface, participants choose the
+                form and pattern of their wearable and explore how it relates
+                to their own anatomy. They then lie beneath the robotic arm as
+                their chosen design is translated into a fabrication path and
+                woven directly onto their body. Nothing is cut, sewn, or fitted
+                afterward. The wearable takes form on the body for which it is
+                made.
+              </p>
+              <p class="muted">
+                As fibers fall through the air, gravity stretches, loops, and
+                redirects them before they settle. The robotic path determines
+                where material is released, while gravity and material behavior
+                influence what it becomes. As a result, no two pieces are
+                exactly alike.
+              </p>
+              <p class="close">
+                Second Skin proposes clothing not as an object fitted to the
+                body, but as a material formation that emerges from it.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- One screen of nothing, which is where the backdrop is seen. -->
+        <div class="gap"></div>
+
+        <div class="band">
+          <div class="wrap">
+            <div class="reveal">
+              <span class="tag">What you leave with</span>
+              <p class="lede">
+                One session, about an hour, and the piece is yours. The only one
+                that will ever fit that way, because the body it was made on was
+                measured once and never averaged.
+              </p>
+              <p class="muted">
+                Sessions run at the MIT Media Lab under COUHES protocol
+                #2606002061.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- The last panel, and the one that covers the backdrop over the
+             screen where it unpins. A photograph does that job as well as a
+             blank block would, and is not a screen of black. -->
+        <div class="plate">
+          <img src="media/1_about/display_web.jpg" alt="Pieces on display">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------- methodology -->
+  <section role="tabpanel" id="methodology">
+    <div class="band">
+      <div class="wrap stack">
+        <div class="measure reveal">
+          <span class="tag">Methodology</span>
+          <h2>How a piece is made</h2>
+        </div>
+
+        <!-- The three steps of one process, in the order they happen, at one
+             scale: the same machine is the same size in each, so the eye reads
+             a sequence rather than three separate drawings. Step 2 is not a
+             third view of the room but a column of five panels — input,
+             outline, scan, scaled outline, toolpath — stacked the way the
+             layers are stacked in the drawing they came from. -->
+        <ol class="steps reveal">
+          <li>
+            <img src="media/2_methodology/step1_scanning.webp?v=2"
+                 alt="The arm scanning a person lying on the bed">
+            <span class="tag">Step 1 · Body scanning</span>
+            <p class="muted small">A depth camera on the arm scans the torso,
+              capturing the unique geometry of the body.</p>
+          </li>
+          <li>
+            <div class="col">
+              <img src="media/2_methodology/step2_pattern.webp?v=5"
+                   alt="The input, the outline, the scan and the toolpath, stacked">
+            </div>
+            <span class="tag">Step 2 · Pattern generation</span>
+            <p class="muted small">The chosen input and outline are scaled onto
+              the scan, and the chosen pattern is generated within the scaled
+              geometry.</p>
+          </li>
+          <li>
+            <img src="media/2_methodology/step3_fabrication.webp?v=2"
+                 alt="The arm printing the toolpath onto the body">
+            <span class="tag">Step 3 · Fabrication</span>
+            <p class="muted small">The arm follows those generated toolpaths
+              above the body. Fiber leaves the nozzle at 80 °C and lands as a
+              warm sensation on the skin.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------- experience -->
+  <!-- One screen: the photograph, and everything else laid over it. No
+       scrolling, so what it takes to take part is never below the fold. -->
+  <section role="tabpanel" id="experience">
+    <div class="title-plate">
+      <img src="media/3_experience/sergio_web.jpg" alt="A session in progress">
+
+      <!-- Two rows: the account sits in the middle of the screen, the three
+           notes are held at the bottom of it. -->
+      <div class="plate-grid">
+        <div class="title-inner">
+          <span class="tag">The experience</span>
+          <h1>On to your body</h1>
+
+          <div class="account">
+            <p>
+              This is a participatory on-body fabrication experience. Through
+              an interactive design interface, you compose your own piece.
+            </p>
+            <p>
+              You are then scanned, and your composed design is personalized
+              to the geometry of your own body. The piece is fabricated
+              directly onto you.
+            </p>
+            <p class="close">Composed by you, made on you, and fit to you.</p>
+          </div>
+        </div>
+
+        <div class="three on-image">
+          <div class="note">
+            <span class="tag">Taking part</span>
+            <p>
+              Sessions take about two hours. If you would like to participate,
+              please <a href="https://forms.gle/sbC88GXTNkgzvpAJ8" target="_blank"
+                 rel="noopener">fill out this form</a>.
+            </p>
+          </div>
+
+          <div class="note">
+            <span class="tag">Already taken part</span>
+            <p>
+              Your timelapse and photograph arrive by email. Did not receive
+              after a week? <a href="mailto:criticalmattermit@gmail.com">Contact us</a>.
+            </p>
+          </div>
+
+          <!-- The lab entry belongs to the private build: there is no session
+               tool here to open. -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- -------------------------------------------------------------- team -->
+  <section role="tabpanel" id="team">
+    <!-- One frame, no scroll: five people fit a screen, and a team page that
+         has to be scrolled reads as a longer list than it is. -->
+    <div class="team-plate">
+      <div class="team-inner reveal">
+        <span class="tag">Team</span>
+        <h2>Critical Matter Group</h2>
+
+        <!-- Everyone is present on arrival. Hovering does not summon a face,
+             it withdraws the others — the same gesture, without the page
+             starting empty or starting on one person's portrait. -->
+        <ul class="people">
+          <li class="person">
+            <img src="media/4_team/Behnaz_web.webp" alt="Behnaz Farahi">
+            <span class="who">Behnaz Farahi</span>
+            <span class="what">Critical Matter Group Director</span>
+          </li>
+          <li class="person">
+            <img src="media/4_team/Annie_web.webp" alt="Annie Xing">
+            <span class="who">Annie Xing</span>
+            <span class="what">Harvard MDes</span>
+          </li>
+          <li class="person">
+            <img src="media/4_team/Justin_web.webp" alt="Justin Wan">
+            <span class="who">Justin Wan</span>
+            <span class="what">MIT M.Arch</span>
+          </li>
+          <li class="person">
+            <img src="media/4_team/Sergio_web.webp" alt="Sergio Mutis">
+            <span class="who">Sergio Mutis</span>
+            <span class="what">MIT MAS</span>
+          </li>
+          <li class="person">
+            <img src="media/4_team/Yuxiang_web.webp" alt="Yuxiang Cheng">
+            <span class="who">Yuxiang Cheng</span>
+            <span class="what">MIT MAS</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="tag"><a href="https://www.media.mit.edu/groups/critical-matter/overview/" target="_blank" rel="noopener">Critical Matter Group</a> · MIT Media Lab</span>
+    <span class="tag">COUHES protocol #2606002061</span>
+  </div>
+</footer>
+
+<script>
+// This site is read-only: four tabs over one set of files, nothing written.
+
+
+// The header is fixed and its height is not: on a narrow screen the tabs drop
+// below the logos, and narrower still they wrap again. Anything that has to
+// begin below it needs the real number, so it is published as --bar-h and kept
+// current, rather than guessed at once in the stylesheet.
+(function () {
+  const bar = document.querySelector('header.site .bar');
+  if (!bar) return;
+  const publish = () => document.documentElement.style
+    .setProperty('--bar-h', Math.ceil(bar.getBoundingClientRect().height) + 'px');
+  new ResizeObserver(publish).observe(bar);
+  // Belt and braces: the observer is the accurate one, but a plain resize
+  // listener costs nothing and covers the case where it does not fire.
+  addEventListener('resize', publish);
+  addEventListener('load', publish);
+  publish();
+})();
+
+// Start at the top on every load. Browsers restore the previous scroll
+// position on refresh, which lands you in the middle of a sequence that only
+// makes sense from its beginning.
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+addEventListener('load', () => scrollTo(0, 0));
+
+// Reveal on entry. Elements start hidden only once this runs, so a page with
+// no script — or a stalled one — still shows everything.
+const io = new IntersectionObserver((entries) => {
+  for (const e of entries) {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }
+// -25% keeps the trigger well inside the viewport, so the reveal happens
+// where it can be seen rather than just off the bottom edge.
+}, { rootMargin: '0px 0px -25% 0px' });
+
+// Siblings in the same row come in one after another rather than together —
+// simultaneous reveals read as a single jump.
+document.querySelectorAll('.reveal, .wipe').forEach((el) => {
+  const sibs = [...el.parentElement.children].filter((n) => n.matches('.reveal, .wipe'));
+  el.style.setProperty('--d', (sibs.indexOf(el) * 0.14) + 's');
+  io.observe(el);
+});
+
+// The colour hole in the hero grading follows the pointer.
+// Written to CSS variables rather than to the mask string, and eased on a
+// frame loop rather than with a CSS transition: a transition restarts on every
+// mousemove event, which reads as stepping rather than trailing.
+(function () {
+  const hero = document.querySelector('#about .hero');
+  if (!hero || !matchMedia('(hover: hover)').matches) return;
+
+  const R = 88;                        // radius of the inverted disc, px
+  let tx = 0, ty = 0, tr = 0;          // where it is going
+  let x = 0, y = 0, r = 0;             // where it is
+  let running = false;
+
+  function frame() {
+    // Move a fixed fraction of the remaining distance each frame: fast at
+    // first, slowing as it arrives, with no duration to get out of step with.
+    x += (tx - x) * 0.16;
+    y += (ty - y) * 0.16;
+    r += (tr - r) * 0.12;
+    hero.style.setProperty('--mx', x.toFixed(1) + 'px');
+    hero.style.setProperty('--my', y.toFixed(1) + 'px');
+    hero.style.setProperty('--r', r.toFixed(1) + 'px');
+    // Stop the loop once it has settled, so an idle page costs nothing.
+    if (Math.abs(tx - x) + Math.abs(ty - y) + Math.abs(tr - r) > 0.5) {
+      requestAnimationFrame(frame);
+    } else { running = false; }
+  }
+  function kick() { if (!running) { running = true; requestAnimationFrame(frame); } }
+
+  hero.addEventListener('pointermove', (e) => {
+    const b = hero.getBoundingClientRect();
+    tx = e.clientX - b.left;
+    ty = e.clientY - b.top;
+    if (tr === 0) { x = tx; y = ty; }   // open where the pointer is, not from the centre
+    tr = R;
+    kick();
+  });
+  hero.addEventListener('pointerleave', () => { tr = 0; kick(); });
+})();
+
+// Tabs, not scrolling. The chosen tab goes into the hash so it can be linked
+// to and survives a refresh — and so ?session#experience is one bookmark.
+const tabs = [...document.querySelectorAll('nav.tabs button')];
+const panels = [...document.querySelectorAll('section[role="tabpanel"]')];
+
+let show = function (name) {
+  if (!panels.some((p) => p.id === name)) name = 'about';
+  const swap = () => {
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+    panels.forEach((p) => p.classList.toggle('active', p.id === name));
+    history.replaceState(null, '', location.pathname + location.search + '#' + name);
+    scrollTo(0, 0);
+    // Belt and braces for the observer above. A panel that has never been
+    // displayed has no size, so whether it counts as "entered" the moment it
+    // appears is left to the observer's timing. Whatever is on screen in the
+    // panel just opened has been entered by definition, so say so outright;
+    // anything below the fold is still the observer's to catch.
+    const shown = panels.find((p) => p.id === name);
+    if (shown) shown.querySelectorAll('.reveal, .wipe').forEach((el) => {
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in');
+    });
+  };
+  // A view transition cross-fades the old panel into the new one instead of
+  // cutting between them. Where it is unavailable the swap happens as before
+  // and the CSS fade on the incoming panel carries it.
+  if (document.startViewTransition) document.startViewTransition(swap);
+  else swap();
+};
+
+tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
+show(location.hash.slice(1) || 'about');
+</script>
+</body>
+</html>

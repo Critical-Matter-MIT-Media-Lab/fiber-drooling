@@ -1,0 +1,691 @@
+/* Second Skin — public site.
+   One page, four tabs. The Experience tab has two versions: see index.html. */
+
+:root {
+  --ink:    #ece7e1;   /* warm off-white type */
+  --paper:  #0b0a0a;   /* the site sits on black */
+  --dark:   #000;
+  --muted:  #8d8a87;   /* grey, not warm grey — the labels read yellow at #8d857d */
+  --line:   #262322;
+  --pad:    clamp(22px, 5vw, 72px);
+
+  --serif: ui-serif, "New York", Georgia, "Times New Roman", serif;
+  --sans:  -apple-system, system-ui, "Helvetica Neue", Arial, sans-serif;
+
+  /* The height of the fixed header. Not a constant: below 680px the tabs drop
+     under the logos, and narrower still they wrap again.
+     TWO numbers, and everything below takes the LARGER:
+       --bar-h      what index.html measured, exact but only as fresh as the
+                    last time the script ran
+       --bar-floor  what the width alone guarantees, set by the media query
+                    below and never wrong, only generous
+     The measurement used to be trusted on its own. It is written as an inline
+     style, which beats any stylesheet rule, so a stale value could not be
+     corrected by the floor — and a stale value is worse than no script at all,
+     because it silently reserves too little and the first line ends up under
+     the header. It can only raise the floor now, never lower it. */
+  --bar-h: 84px;
+  --bar-floor: 84px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.7 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; }
+
+/* Navigating to the session tool crosses fully to another document, which
+   normally means a white flash and a jump. This hands the change to the
+   browser to cross-fade. Both pages have to opt in or nothing happens; the
+   other half of this is in session.css. Browsers without it simply navigate. */
+@view-transition { navigation: auto; }
+
+a.button {
+  display: inline-block; border: 1px solid var(--line);
+  padding: 12px 20px;
+  font: 500 11px/1 var(--sans);
+  text-transform: uppercase; letter-spacing: .16em;
+  transition: border-color .2s, color .2s;
+}
+a.button:hover { border-color: var(--muted); color: #fff; }
+
+/* Wide-tracked small caps carry every label on the site — nav, captions,
+   section marks. One idea, used consistently, does the work of a typeface. */
+.tag {
+  font: 500 11px/1 var(--sans);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+
+.wrap    { max-width: 1140px; margin: 0 auto; padding: 0 var(--pad); }
+.measure { max-width: 640px; }
+.centred { margin-left: auto; margin-right: auto; text-align: center; }
+.centred .lede { margin-left: auto; margin-right: auto; }
+
+/* ----------------------------------------------------------------- header
+   Logo left, tabs centred, Instagram right — the arrangement on the Gaze to
+   the Stars site. Dark bar, because the Critical Matter mark is white. */
+header.site {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  background: none;
+}
+/* A scrim rather than a bar: keeps the marks legible over a bright frame of
+   film without drawing a hard edge across the top of the page. */
+header.site::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,0));
+}
+header.site .bar { position: relative; }
+header.site .bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;   /* logo | tabs | social */
+  align-items: center;
+  gap: 20px;
+  height: 84px;
+  padding: 0 clamp(16px, 2.4vw, 34px);   /* hard to the edges */
+}
+
+/* The global underline on links was landing on the logo — hence the line
+   running off to the right of the mark. */
+.logo { border: 0; display: block; }
+/* Two marks in the space one used to hold, at one height so neither outranks
+   the other. Space alone separates them: a rule between two white marks on a
+   photograph reads as one more piece of furniture in an already busy corner. */
+.logo img { height: 28px; width: auto; display: block; }
+.logos { display: flex; align-items: center; gap: clamp(12px, 1.2vw, 18px); }
+.social { justify-self: end; display: flex; gap: 16px; align-items: center; }
+.social a { border: 0; opacity: .75; transition: opacity .2s; display: block; }
+.social a:hover { opacity: 1; }
+.social svg { display: block; width: 25px; height: 25px; fill: #fff; }
+
+nav.tabs { display: flex; gap: clamp(24px, 3.6vw, 54px); justify-self: center; }
+nav.tabs button {
+  appearance: none; background: none; border: 0; cursor: pointer; padding: 4px 0;
+  font: 500 11px/1 var(--sans);
+  text-transform: uppercase; letter-spacing: .16em;
+  color: #8f8880;
+  transition: color .2s;
+}
+nav.tabs button:hover { color: #fff; }
+nav.tabs button[aria-selected="true"] { color: #fff; }
+
+/* Tabs drop below the logo on narrow screens rather than squashing.
+   Every item is placed by hand here. Left to auto-placement the tabs took the
+   whole of row one — they are set to span both columns — and pushed the social
+   link onto a row of its own, which made the bar three rows tall and left it
+   sitting over the first line of the page. */
+@media (max-width: 680px) {
+  header.site .bar {
+    grid-template-columns: auto 1fr; height: auto;
+    padding-top: 14px; padding-bottom: 12px; row-gap: 12px;
+  }
+  .logos   { grid-row: 1; grid-column: 1; }
+  .social  { grid-row: 1; grid-column: 2; }
+  /* The four labels measure 279px together. At a flat 24px gap they need 352
+     and a 375px phone offers 343 — nine pixels short, so Team dropped to a
+     second line and the bar stood 122px tall on the commonest screen there is.
+     A gap that shrinks with the viewport holds all four on one line down to
+     360px, which covers every phone in use bar the oldest. */
+  nav.tabs { grid-row: 2; grid-column: 1 / -1; justify-self: start;
+             flex-wrap: wrap; gap: 14px clamp(12px, 4.4vw, 24px); }
+  /* One row of logos, one of tabs. */
+  :root { --bar-floor: 88px; }
+}
+
+/* Narrower than this the labels cannot share a line however tight the gap, so
+   the bar is two rows of tabs and the floor has to allow for it. Stated as its
+   own rule rather than folded into the one above: these are two different
+   layouts, and the height each guarantees is not the same number.
+
+   359 is measured, not chosen — at 358 the tabs wrap and at 360 they do not.
+   It is a fact about these four words, so renaming a tab means measuring it
+   again; a longer label moves the point where the bar grows by 33px. */
+@media (max-width: 359px) {
+  :root { --bar-floor: 124px; }
+}
+
+/* ------------------------------------------------------------------ panels */
+section[role="tabpanel"] { display: none; }
+section[role="tabpanel"].active { display: block; }
+
+/* Switching tabs is a cross-fade rather than a swap. The browser does the work
+   through a view transition when it can; where it cannot, the incoming panel
+   fades up on its own, which is duller but never a hard cut.
+   Only opacity is animated on the panel itself: a transform on it would make
+   it the containing block for the sticky hero inside About. */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .5s; }
+  section[role="tabpanel"].active { animation: panel-in .5s ease both; }
+  @keyframes panel-in { from { opacity: 0; } to { opacity: 1; } }
+}
+
+/* -------------------------------------------------------------------- hero */
+.hero {
+  position: sticky; top: 0;        /* the film stays; the page rides over it */
+  height: 100svh;                  /* exactly the window, so no strip below */
+  min-height: 520px;
+  background: var(--dark);
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+/* Black and white is done here rather than baked into the file, so the video
+   stays reusable in colour elsewhere and the treatment is one line to undo.
+   The dark overlay is what keeps white type readable over a moving image. */
+.hero video, .hero .media {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  /* object-position alone could not do this: the film is 16:9 and the window
+     is usually narrower, so there is almost no margin to slide within. Scaling
+     up creates the overflow, and the shift then throws it off to the left. */
+  /* The shift is applied before the scale, so it is magnified by it: at 1.25
+     anything past 10% pulls the film's own edge into frame on the right. */
+  transform: scale(1.25) translateX(-9%);
+  /* No grayscale here any more — .grade above does it, so a hole can be cut
+     in the grading to let the original colour through. */
+}
+/* The grade, and the disc that inverts it.
+   backdrop-filter desaturates whatever is painted beneath, so .grade turns the
+   whole film black and white in one layer. .pop then sits above it and inverts
+   its own backdrop — which is .grade's output, already monochrome — inside a
+   circle at the cursor. Black fiber goes white, lit skin goes dark.
+   The circle keeps its shape — the falloff is a rim, not a haze — so it reads
+   as a disc moving over the film rather than as a glow.
+   --r is 0 until the pointer enters, so the film loads plain black and white. */
+.hero { --mx: 50%; --my: 50%; --r: 0px; }
+
+.hero .grade {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  -webkit-backdrop-filter: grayscale(1) contrast(1.1);
+  backdrop-filter: grayscale(1) contrast(1.1);
+}
+.hero .pop {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  -webkit-backdrop-filter: invert(1);
+  backdrop-filter: invert(1);
+  /* The falloff is a thin rim, not a haze: solid out to 82% of the radius,
+     then ~16px of fade. A fully hard edge cut like a sticker; feathering the
+     whole disc turned it into a smudge with no shape. --edge is here so the
+     rim can be retuned without touching the gradient. */
+  --edge: 82%;
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my),
+                                      #000 var(--edge), transparent 100%);
+  mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my),
+                              #000 var(--edge), transparent 100%);
+}
+/* No pointer, no disc — on a phone it would sit wherever the last tap was and
+   never move. Falls back to the film being black and white throughout. */
+@media (hover: none) { .hero .pop { display: none; } }
+
+/* If backdrop-filter is unavailable the layer would do nothing and the film
+   would play in full colour, which is not the design. Grade the video itself. */
+@supports not (backdrop-filter: grayscale(1)) {
+  .hero video { filter: grayscale(1) contrast(1.1); }
+  .hero .pop { display: none; }
+}
+
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,8,8,.55) 0%, rgba(8,8,8,.3) 45%, rgba(8,8,8,.7) 100%);
+}
+.hero .inner { position: relative; z-index: 1; text-align: center; padding: 0 var(--pad); }
+.hero h1 {
+  font: 400 clamp(40px, 7.5vw, 96px)/1.02 var(--serif);
+  color: #fff; margin: 0 0 .38em; letter-spacing: -.015em;
+  text-shadow: 0 2px 40px rgba(0,0,0,.45);   /* just enough to lift it off the film */
+}
+.hero p {
+  font: 400 clamp(15px, 1.5vw, 19px)/1.6 var(--serif);
+  color: #e4ded8; margin: 0 auto; max-width: 52ch; font-style: italic;
+  text-wrap: balance;
+}
+/* The gap a tab opens with. A tag is an inline span, and vertical margin on an
+   inline box is ignored — so anything setting this distance has to make the tag
+   a block first. One value, reused by every opening: hero, title plate, team. */
+.hero .tag,
+.title-inner .tag,
+.team-inner .tag { display: block; margin-bottom: 22px; }
+
+.hero .tag { color: #b8b5b2; }
+
+/* ---------------------------------------------------------------- backdrop
+   A photograph held behind the panels that follow, edge to edge and the height
+   of the window — the arrangement the fixed backdrops on Gaze to the Stars
+   use. It is pinned rather than scrolled into place, so it never slides up
+   from the bottom: it is already there, and the copy moving off the top is
+   what reveals it. */
+.backdrop { position: relative; }
+.backdrop .bg {
+  position: sticky; top: 0;
+  height: 100svh;
+  background: var(--dark);
+  overflow: hidden;
+}
+.backdrop .bg img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+/* Pulled back up over the photograph. Without this the panels would begin one
+   screen further down and the photograph would be a block in the flow again. */
+.backdrop .panels { position: relative; z-index: 1; margin-top: -100svh; }
+/* The window of nothing through which the photograph is seen. */
+.backdrop .gap {
+  height: 100svh;
+  position: relative;
+  display: grid; align-items: end;
+  padding: 0 var(--pad) 26px;
+}
+.backdrop .gap .tag { color: #cfcac6; }
+/* The sticky photograph can only stay put while its container has room below
+   it, so over the last screen of the section it travels up. The closing
+   photograph is the last panel and is a full window tall, so it is covering
+   everything while that happens and the movement is never seen. Nothing has to
+   be padded out to make room. */
+
+/* ------------------------------------------------------------------- plate
+   A photograph filling the window, in the flow rather than pinned. Opaque, so
+   as a panel it covers whatever is behind it. */
+.plate {
+  position: relative; z-index: 1;
+  height: 100svh; min-height: 520px;
+  background: var(--dark);
+  overflow: hidden;
+}
+.plate img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+}
+.plate .tag {
+  position: absolute; left: var(--pad); bottom: 26px; z-index: 1;
+  color: #cfcac6;
+}
+
+/* ------------------------------------------------------------- title plate
+   A photograph filling the window with a few lines centred on it. Used to open
+   a tab the way the hero opens the site, without the film. */
+.title-plate {
+  position: relative;
+  height: 100svh; min-height: 520px;
+  background: var(--dark);
+  overflow: hidden;
+}
+/* The account is centred in the screen; the notes are held at the foot of it,
+   so the middle of the page is the reading and the bottom is what to do next.
+   Top padding clears the fixed header, which floats over everything. */
+.plate-grid {
+  position: relative; z-index: 1;
+  height: 100%; width: 100%; max-width: 1500px; margin: 0 auto;
+  /* The foot is tighter than the sides on purpose: the notes are the last thing
+     on the screen, and holding them nearer the edge settles them rather than
+     leaving them floating in the middle distance. */
+  padding: max(104px, calc(max(var(--bar-h), var(--bar-floor)) + 26px)) clamp(28px, 4vw, 64px) clamp(20px, 3.8vh, 38px);
+  display: grid; grid-template-rows: 1fr auto; align-items: center;
+}
+.title-plate img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  /* natural colour; the scrim below does the darkening */
+}
+/* Darkened enough for type, not so much that the photograph goes flat. */
+.title-plate::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(8,8,8,.6) 0%, rgba(8,8,8,.44) 45%, rgba(8,8,8,.74) 100%);
+}
+.title-inner { text-align: center; }
+/* Identical treatment to the hero: same tag spacing, same title scale. Two
+   openings that differ by a few pixels read as a mistake, not a variation. */
+/* (the tag spacing itself is set with the hero's, above) */
+.title-inner h1 {
+  font: 400 clamp(30px, 5vw, 62px)/1.05 var(--serif);
+  color: #fff; margin: 0 0 .35em; letter-spacing: -.015em;
+  text-shadow: 0 2px 40px rgba(0,0,0,.45);
+}
+.title-inner .lede { color: #e4ded8; margin: 0 auto; max-width: 46ch; }
+.title-inner .tag { color: #b8b5b2; }
+
+/* The cards sit on the photograph rather than in a block below it, so the tab
+   is one screen with nothing under the fold. A hairline above each is all the
+   separation they need; boxes would turn the photograph into a backdrop for a
+   form. */
+/* The account: set in the serif, at reading size, wide enough to breathe. The
+   serif is what the site uses for anything meant to be read rather than
+   scanned, and over a photograph it holds up better than the sans. */
+.account {
+  max-width: 72ch; margin: clamp(16px, 2.8vh, 30px) auto 0;
+}
+.account p {
+  font: 400 clamp(16px, 1.5vw, 19px)/1.7 var(--serif);
+  color: #e6e1db;
+  margin: 0 0 .85em;
+  text-wrap: balance;
+}
+/* The closing line is the thesis, so it is set apart: italic, spaced off.
+   Unscoped since the About band closes the same way the Experience plate
+   does — one rule, so the two thesis lines can never drift apart. */
+.close {
+  font-style: italic;
+  color: #fff;
+  margin-top: 1.4em;
+}
+
+.three.on-image {
+  text-align: left;
+  border-top: 1px solid rgba(236, 231, 225, .22);
+  padding-top: 14px;
+  /* Equal tracks, not auto-fit: with three items the columns must read as one
+     even row, and text is left to fill its track so the ragged edges match. */
+  /* Fixed 320px columns spread across the full row: the gutters take up
+     whatever is left, so the columns stay the same on any wide screen. */
+  grid-template-columns: repeat(3, 320px);
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1400px; margin-left: auto; margin-right: auto; width: 100%;
+}
+.three.on-image .note { border: 0; padding: 0; }
+.three.on-image p  { color: #d9d3cd; font-size: 13px; line-height: 1.65; margin: 0; }
+.three.on-image .tag { color: #a9a5a1; margin-bottom: 8px; }
+.three.on-image a.button {
+  border-color: rgba(236,231,225,.45); white-space: nowrap;
+  padding: 10px 14px; font-size: 10.5px;
+}
+/* Text and button share the row when there is room; in a narrow column the
+   button drops below rather than squeezing the text into a broken line. */
+.lab-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; }
+.lab-row p { white-space: nowrap; }
+@media (max-width: 1080px) { .three.on-image { grid-template-columns: 1fr; justify-content: start; } }
+
+/* ------------------------------------------------------------------ blocks */
+/* Opaque and above the film, so scrolling lifts the page over the hero
+   rather than scrolling the hero away. */
+.band { position: relative; z-index: 1; background: var(--paper); padding: clamp(64px, 11vh, 130px) 0; }
+.band + .band { border-top: 1px solid var(--line); }
+
+/* A tab whose first thing is a band starts directly under the header, and the
+   header is fixed, so the band's own top padding is all that keeps the two
+   apart. On a phone that padding is 11vh and the header is taller than it. */
+section[role="tabpanel"] > .band:first-child {
+  padding-top: max(clamp(64px, 11vh, 130px), calc(max(var(--bar-h), var(--bar-floor)) + 26px));
+}
+
+h2 {
+  font: 400 clamp(26px, 3.4vw, 40px)/1.15 var(--serif);
+  margin: 0 0 .5em; letter-spacing: -.01em;
+}
+h3 { font: 500 14px/1.4 var(--sans); margin: 0 0 .4em; }
+p  { margin: 0 0 1.1em; }
+p.lede { font: 400 clamp(17px, 1.9vw, 21px)/1.6 var(--serif); color: #cfc8c1; }
+
+.stack > * + * { margin-top: clamp(28px, 4vw, 52px); }
+
+/* Media placeholders. Flat, edge to edge, captioned underneath — the way work
+   is shown in a catalogue, rather than boxed into rounded cards. */
+figure { margin: 0; }
+figure .frame {
+  aspect-ratio: 16 / 9;
+  background: #171514;
+  display: grid; place-items: center;
+}
+figure .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+figure .frame span { font: 500 11px/1 var(--sans); text-transform: uppercase; letter-spacing: .16em; color: #5d554e; }
+figure figcaption { margin-top: 10px; }
+
+.two   { display: grid; gap: clamp(20px, 3vw, 40px); grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* ------------------------------------------------------------------- steps
+   The process, three panels wide. The two rendered steps come out of one
+   camera at one frame — same machine, same size — so they can be laid side by
+   side plainly. */
+.steps {
+  list-style: none; padding: 0;
+  /* The heading's own margin is 20px, which is right under a paragraph and
+     tight under a row of pictures. Set here rather than on h2, which every
+     section shares — and set to the whole distance, not the difference: this
+     margin collapses with the heading's, so the larger of the two wins and
+     anything under 20 does nothing at all. */
+  margin: 50px 0 0;
+  /* Sideways only. The rows here are the picture, its label and its sentence —
+     parts of one caption, not three things needing air between them — and a
+     gap set for the space BETWEEN the steps was being applied to those too,
+     adding 37px to each and burying the margins below that were meant to set
+     that rhythm. Restored for one column, at the bottom, where the rows really
+     are the three steps. */
+  display: grid; column-gap: clamp(18px, 2.6vw, 40px); row-gap: 0;
+  /* Three equal columns, so the three blocks of text are three equal measures
+     — that is what the reader is comparing, not the pictures. The pictures are
+     not the same shape as each other and are not made to be: each is centred
+     in its share and sized by the row, and step 2's narrow column of panels
+     simply leaves more space either side of itself than the other two do. */
+  grid-template-columns: repeat(3, 1fr);
+  /* image / label / text, shared down the row so the three line up. */
+  grid-template-rows: auto auto auto;
+  align-items: start;
+}
+.steps > li {
+  display: grid; grid-row: span 3; grid-template-rows: subgrid;
+}
+.steps img { width: 100%; height: auto; display: block; }
+.steps .tag { display: block; margin: 44px 0 10px; align-self: end; white-space: nowrap; }
+.steps .small { font-size: 14px; margin: 0; max-width: 34ch; }
+
+/* The row dims and the one under the pointer stays lit and lifts — the team
+   portraits' gesture and their timings. The lift is larger here, 1.10 against
+   the portraits' 1.06: these pictures are three times the width, and the same
+   percentage on a small round portrait reads as a nudge where on a wide
+   drawing it barely registers.
+   pointer-events is the same trick too: the row spans the gaps between the
+   steps, so hovering the empty space between two of them counted as hovering
+   the row and dimmed all three with none lit. Only a step can take the
+   pointer; hover still reaches the row through it. */
+.steps { pointer-events: none; }
+.steps > li { pointer-events: auto; transition: opacity .35s ease; }
+.steps img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.steps:hover > li { opacity: .32; }
+.steps > li:hover { opacity: 1; }
+.steps > li:hover img { transform: scale(1.10); }
+
+/* No dimming where there is no pointer to do the dimming. */
+@media (hover: none), (max-width: 900px) {
+  .steps:hover > li { opacity: 1; }
+  .steps > li:hover img { transform: none; }
+}
+
+/* Step 2 is a column of five panels, nearly four times taller than it is wide;
+   left to fill its column it would tower over the other two. The subgrid row
+   is as tall as the side renders, so filling that row and no more puts it at
+   their height without a number to keep in step with them.
+   Taken out of the flow to do it: left in, the tallest thing in the row is the
+   one being measured, and the row grows to fit it instead of holding it. */
+.steps .col { height: 100%; position: relative; }
+.steps .col img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  /* One column: nothing to line up with, and nothing to match heights against.
+     Each step is its own block again and the panels are as tall as they are. */
+  /* One column: the rows ARE the three steps now, so they need the gap back. */
+  .steps { grid-template-columns: 1fr; grid-template-rows: none;
+           row-gap: clamp(40px, 7vw, 72px); }
+  .steps > li { display: block; grid-row: auto; grid-template-rows: none; }
+  .steps .col { height: auto; }
+  .steps .col img {
+    position: static;
+    height: auto; width: auto; max-width: 100%; margin: 0 auto;
+  }
+}
+
+/* -------------------------------------------------------------------- team
+   One screen, no scroll. Everyone is on it from the moment the tab opens; the
+   hover does not reveal a face but withdraws the rest, which keeps the page
+   whole at rest and still answers a pointer. Names are small: five portraits
+   already carry the page, and a column of large type competing with them was
+   what made the first version feel like two designs at once. */
+/* The photograph behind the team. Its top half, fitted to the width and held
+   at the top, so the same part of it shows whatever the window is; blurred and
+   darkened, because it is a ground for five portraits and a heading, not
+   something to look at. The blur is on a pseudo-element rather than the plate
+   itself: filter on the plate would blur the people standing on it. */
+.team-plate { position: relative; isolation: isolate; }
+.team-plate::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  /* Filled, not fitted. Fitting to the width means the taller the window, the
+     less of the photograph reaches the bottom, and the wider it is the more it
+     is enlarged — on a wide screen the top half became a blown-up sliver.
+     Covering keeps the same region at any size and never leaves a gap. */
+  background: url("media/4_team/team_bg_web.jpg") center top / cover no-repeat,
+              var(--dark);
+  filter: blur(5px) brightness(.30) saturate(.7);
+  /* The blur samples past the edges and leaves a pale rim, so the layer is
+     grown beyond the frame and clipped back to it — enough to cover the blur's
+     own reach, which is why this shrinks when the blur does. */
+  transform: scale(1.02);
+}
+
+.team-plate {
+  /* The footer is a sibling below this, so a full 100svh here would push it
+     off the bottom and hand the page a scrollbar for the sake of 60 pixels.
+     The frame is the window minus the footer, and the tab holds still. */
+  min-height: calc(100svh - 60px);
+  overflow: hidden;                /* keeps the grown, blurred layer inside */
+  display: grid; place-items: center;
+  /* The top padding is what keeps this clear of the fixed header, so it is
+     stated against the header's own height rather than as a number that
+     happened to be enough on a laptop. */
+  padding: max(104px, calc(max(var(--bar-h), var(--bar-floor)) + 26px)) clamp(20px, 4vw, 64px) clamp(28px, 5vh, 56px);
+}
+/* Nudged up off dead centre: the fixed header weighs on the top of the frame,
+   so the optical middle sits a little above the measured one. Offset rather
+   than padding — padding only moves it while the plate is taller than its
+   contents — and relative rather than transform, which the reveal is using. */
+.team-inner {
+  width: 100%; max-width: 1300px; text-align: center;
+  position: relative; top: -15px;
+}
+.team-inner h2 { margin-bottom: clamp(28px, 5vh, 56px); }
+
+.people {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center;
+  align-items: flex-start;
+  gap: clamp(18px, 3.4vw, 56px);
+  /* The row spans the gaps between the portraits, so hovering empty space
+     between two faces counted as hovering the row and dimmed all five with
+     none lit. Only a person can take the pointer now; hover still reaches the
+     row through them, since hover propagates up from whatever was hit. */
+  pointer-events: none;
+}
+.person {
+  width: clamp(104px, 12vw, 168px);
+  transition: opacity .35s ease;
+  pointer-events: auto;
+}
+.person img {
+  display: block; width: 100%; aspect-ratio: 1; object-fit: contain;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1);
+}
+.person .who {
+  display: block; margin-top: 14px;
+  font: 400 clamp(14px, 1.15vw, 17px)/1.3 var(--serif); color: #fff;
+}
+.person .what {
+  display: block; margin-top: 4px;
+  font: 400 11.5px/1.5 var(--sans); color: var(--muted);
+}
+/* The row dims as a whole and the one under the pointer stays lit and lifts. */
+.people:hover .person { opacity: .32; }
+.people .person:hover { opacity: 1; }
+.people .person:hover img { transform: scale(1.06); }
+
+/* Two rows of portraits rather than five squeezed ones, and no dimming to
+   speak of where there is no pointer to do the speaking. */
+@media (hover: none), (max-width: 700px) {
+  .team-plate { min-height: 0; padding-top: max(92px, calc(max(var(--bar-h), var(--bar-floor)) + 26px)); }
+  .person { width: clamp(96px, 26vw, 140px); }
+  .people:hover .person { opacity: 1; }
+  .people .person:hover img { transform: none; }
+}
+
+/* Three across on a laptop, folding to two and then one. The lower minimum is
+   what lets all three sit on one row inside the 1140 column. */
+.three { display: grid; gap: clamp(20px, 3vw, 40px); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+/* -------------------------------------------------------------------- note */
+.note {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+}
+
+/* ---------------------------------------------------------------- reveal */
+/* Driven by scroll position, not by a timer, so it tracks the page exactly.
+   Where animation-timeline is unsupported the animation has no duration and
+   simply lands on its end state — visible — so nothing is ever hidden. */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+/* Images arrive by being uncovered from the top down, the direction the fiber
+   itself falls — a wipe reads as material accumulating, where a fade reads as
+   a slide appearing. Text keeps the quieter rise: a wipe across a paragraph
+   makes it look like it is still loading. */
+@keyframes wipe-down {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+/* Driven by scroll distance, not by view(): the hero is sticky, so it never
+   leaves the viewport and a view timeline on it sits at zero forever. The hero
+   is exactly one screen tall, so scrolling 100svh is precisely the point at
+   which the page has covered it.
+   Keyframes repeat the base transform and filter in full, since animating a
+   property replaces its static value outright. */
+@keyframes film-recede {
+  from { transform: scale(1.25) translateX(-9%); filter: brightness(1); }
+  to   { transform: scale(1.10) translateX(-9%); filter: brightness(.35); }
+}
+@keyframes hero-recede {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(-40px); }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero video {
+    animation: film-recede linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100svh;
+  }
+  .hero .inner {
+    animation: hero-recede linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 62svh;
+  }
+
+  /* Entry is detected in script rather than with view(): the timelines were
+     coming back inactive here, and every figure needs its own trigger point,
+     which a single scroll() timeline cannot give. A class toggle is duller and
+     works. Without script, or with reduced motion, everything is simply on. */
+  .reveal { opacity: 0; transform: translateY(34px); }
+  .reveal.in {
+    transition: opacity 1s ease var(--d, 0s), transform 1s cubic-bezier(.2,.7,.2,1) var(--d, 0s);
+    opacity: 1; transform: none;
+  }
+
+  .wipe .frame { clip-path: inset(0 0 100% 0); }
+  .wipe.in .frame {
+    transition: clip-path 1.5s cubic-bezier(.22,.7,.2,1) var(--d, 0s);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ------------------------------------------------------------------ footer */
+footer.site {
+  border-top: 1px solid var(--line);
+  padding: 22px 0 26px;
+}
+footer.site .wrap { display: flex; flex-wrap: wrap; gap: 18px 40px; justify-content: center; }
